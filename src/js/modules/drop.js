@@ -16,6 +16,41 @@ const drop = () => {
         e.preventDefault();
         e.stopPropagation();
     }
+
+    function highlight(item){
+        item.closest('.file_upload').style.border = "5px solid yellow";
+        item.closest('.file_upload').style.backgroundColor = "rgba(0,0,0,0.7)";
+    }
+
+    function unhighlight(item){
+        item.closest('.file_upload').style.border = "none";
+        item.closest('.file_upload').style.backgroundColor = "#ededed";
+    }
+
+    ['dragenter','dragover'].forEach(evenName =>{
+        fileInputs.forEach(input =>{
+            input.addEventListener(evenName,()=> highlight(input),false);
+        });
+    });
+
+    ['dragleave','drop'].forEach(evenName =>{
+        fileInputs.forEach(input =>{
+            input.addEventListener(evenName,()=> unhighlight(input),false);
+        });
+    });
+
+
+    fileInputs.forEach(input => {
+        input.addEventListener('drop',(e) =>{
+            input.files = e.dataTransfer.files;
+            let dots;
+            const arr = input.files[0].name.split('.');
+            arr[0].length > 6 ? dots ="..." : dots = '.';
+            const name = arr[0].substring(0, 6) + dots + arr[1];
+            input.previousElementSibling.textContent = name;
+            //console.log(input.previousElementSibling.textContent);
+        });
+    });
 };
 
 export default drop;
