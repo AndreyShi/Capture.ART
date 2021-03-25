@@ -6,7 +6,7 @@ const drop = () => {
 
     const fileInputs = document.querySelectorAll('[name = "upload"]');
 
-    ['click','dragenter','dragleave','dragover','drop'].forEach(evenName =>{
+    ['dragenter','dragleave','dragover','drop'].forEach(evenName =>{
         fileInputs.forEach(input =>{
             input.addEventListener(evenName,preventDefaults,false);
         });
@@ -24,7 +24,13 @@ const drop = () => {
 
     function unhighlight(item){
         item.closest('.file_upload').style.border = "none";
-        item.closest('.file_upload').style.backgroundColor = "#ededed";
+        if (item.closest('.calc_form')){
+            item.closest('.file_upload').style.backgroundColor = "#fff";
+        }else{
+            item.closest('.file_upload').style.backgroundColor = "#ededed";
+            
+        }
+        
     }
 
     ['dragenter','dragover'].forEach(evenName =>{
@@ -48,7 +54,6 @@ const drop = () => {
             arr[0].length > 6 ? dots ="..." : dots = '.';
             const name = arr[0].substring(0, 6) + dots + arr[1];
             input.previousElementSibling.textContent = name;
-            //console.log(input.previousElementSibling.textContent);
         });
     });
 };
